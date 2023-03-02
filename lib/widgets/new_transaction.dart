@@ -2,14 +2,20 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:transactions/widgets/new_transaction.dart';
 import 'package:transactions/widgets/transaction_list.dart';
-import 'package:transactions/widgets/user_transaction.dart';
 
-class NewTransaction extends StatelessWidget {
+class NewTransaction extends StatefulWidget {
   final Function addTx;
-  final textControler = TextEditingController();
-  final amountControler = TextEditingController();
 
   NewTransaction(this.addTx);
+
+  @override
+  State<NewTransaction> createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final textControler = TextEditingController();
+
+  final amountControler = TextEditingController();
 
   void submitData() {
     final enteredTitle = textControler.text;
@@ -18,10 +24,12 @@ class NewTransaction extends StatelessWidget {
       return;
     }
 
-    addTx(
+    widget.addTx(
       enteredTitle,
       enteredAmount,
     );
+    Navigator.of(context)
+        .pop(); // автоматично закриває вікно для вводу після надсилання
   }
 
   @override
